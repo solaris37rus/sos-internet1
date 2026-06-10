@@ -218,3 +218,134 @@ th{color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.1
   .sticky-buy b{font-size:20px}
   .support-banner{padding:24px}
 }
+
+
+/* v16 sales-pro additions */
+.offer-strip{
+  margin-top:22px;
+  padding:30px;
+  border-radius:32px;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:24px;
+  align-items:center;
+}
+.offer-strip h2{
+  font-size:clamp(30px,3.4vw,48px);
+  line-height:1;
+  letter-spacing:-.06em;
+  margin:10px 0 12px;
+}
+.offer-strip p{color:var(--muted);font-size:18px;line-height:1.6;max-width:760px}
+.offer-points{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.offer-points span{
+  padding:16px 18px;
+  border-radius:20px;
+  border:1px solid rgba(143,255,209,.16);
+  background:rgba(143,255,209,.07);
+  font-weight:900;
+  color:#e9fff8;
+}
+.document-preview{
+  border-radius:34px;
+  overflow:hidden;
+}
+.doc-toolbar{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:16px 18px;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.045);
+}
+.doc-toolbar span{
+  width:12px;height:12px;border-radius:50%;
+  background:rgba(255,255,255,.22);
+}
+.doc-toolbar span:nth-child(1){background:#ff6b8b}
+.doc-toolbar span:nth-child(2){background:#ffd98a}
+.doc-toolbar span:nth-child(3){background:#8fffd1}
+.doc-toolbar b{margin-left:10px;color:#eaf4ff}
+.doc-body{
+  padding:34px;
+  background:
+    linear-gradient(135deg,rgba(143,255,209,.055),rgba(117,167,255,.04)),
+    rgba(2,5,14,.42);
+}
+.doc-body h3{
+  font-size:34px;
+  line-height:1.02;
+  letter-spacing:-.05em;
+  margin:0 0 10px;
+}
+.doc-body p{color:#d6e3ef;line-height:1.6}
+.doc-columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin:22px 0;
+}
+.doc-columns ul{
+  padding:22px 22px 22px 40px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:rgba(255,255,255,.045);
+  color:#e5eefb;
+  line-height:1.75;
+}
+.doc-note{
+  padding:18px 20px;
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(143,255,209,.11),rgba(117,167,255,.08));
+  border:1px solid rgba(143,255,209,.18);
+  color:#ebfffa;
+  font-weight:900;
+}
+.objection-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.objection{
+  padding:30px;
+  border-radius:30px;
+}
+.objection h3{
+  font-size:32px;
+  letter-spacing:-.06em;
+  margin:0 0 12px;
+}
+.objection p{
+  color:#d6e1ee;
+  font-size:18px;
+  line-height:1.65;
+}
+.objection.good{
+  border-color:rgba(143,255,209,.24);
+  background:linear-gradient(180deg,rgba(143,255,209,.09),rgba(255,255,255,.04));
+}
+.price-card{
+  transition:transform .22s ease, border-color .22s ease, background .22s ease;
+}
+.price-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(143,255,209,.28);
+  background:linear-gradient(180deg,rgba(255,255,255,.095),rgba(255,255,255,.05));
+}
+.btn.primary{
+  position:relative;
+  overflow:hidden;
+}
+.btn.primary:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  transform:translateX(-120%);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+  transition:transform .7s ease;
+}
+.btn.primary:hover:after{transform:translateX(120%)}
+@media(max-width:900px){
+  .offer-strip,.doc-columns,.objection-grid{grid-template-columns:1fr}
+  .offer-points{grid-template-columns:1fr}
+}

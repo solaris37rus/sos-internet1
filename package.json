@@ -1,6 +1,6 @@
 {
-  "name": "sos-internet-clean-v10",
-  "version": "10.0.0",
+  "name": "sos-internet-sales-pro-v16",
+  "version": "16.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,6 +8,6 @@
     "dev": "wrangler dev"
   },
   "devDependencies": {
-    "wrangler": "^3.91.0"
+    "wrangler": "^4.99.0"
   }
 }
