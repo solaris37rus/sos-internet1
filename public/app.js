@@ -115,7 +115,7 @@ form.addEventListener('submit', async (e)=>{
     localStorage.setItem('lastOrder', JSON.stringify(data));
   }catch(err){
     statusBox.className='form-status err';
-    statusBox.textContent = 'Не удалось создать заказ. Проверьте интернет или напишите напрямую в VK.';
+    statusBox.textContent = 'Не удалось создать заказ: ' + (err.message || 'ошибка сервера') + '. Напишите напрямую в VK.';
   }
 });
 
