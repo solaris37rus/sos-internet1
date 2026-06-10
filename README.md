@@ -37,3 +37,7 @@ Binding должен называться строго:
 
 ## Исправление v11
 Удалён `public/_worker.js`, из-за которого Wrangler выдавал ошибку `Uploading a Pages _worker.js file as an asset`.
+
+
+## Исправление v12
+Добавлен `public/.assetsignore` с правилом `_worker.js`, чтобы старый файл `public/_worker.js` не ломал деплой, даже если он остался в GitHub.
