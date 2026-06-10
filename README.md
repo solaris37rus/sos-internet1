@@ -12,11 +12,9 @@
 - Автоматическая выдача после статуса `paid`.
 
 ## Важно
-Проект сделан двойным способом:
-- `src/worker.js` — для Cloudflare Workers.
-- `public/_worker.js` — для Cloudflare Pages advanced mode.
+Проект сделан строго под Cloudflare Workers + Static Assets.
 
-Если `/api/health` открывает главную страницу, значит Cloudflare запущен не с этим Worker-кодом.
+Важно: в папке `public` нет `_worker.js`, чтобы Wrangler не блокировал деплой.
 
 ## Переменные Cloudflare
 - `ADMIN_TOKEN` — необязательно, по умолчанию работает `sos_admin_2026_super_secret`
@@ -35,3 +33,7 @@ Binding должен называться строго:
 ## Webhook
 После деплоя открыть:
 `/api/telegram/set-webhook?token=sos_admin_2026_super_secret`
+
+
+## Исправление v11
+Удалён `public/_worker.js`, из-за которого Wrangler выдавал ошибку `Uploading a Pages _worker.js file as an asset`.

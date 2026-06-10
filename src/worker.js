@@ -1,4 +1,4 @@
-const VERSION = 'clean-premium-v10';
+const VERSION = 'workers-clean-v11';
 const FALLBACK_ADMIN_TOKEN = 'sos_admin_2026_super_secret';
 
 const TARIFFS = {
