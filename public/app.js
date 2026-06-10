@@ -1,3 +1,13 @@
+
+const METRIKA_ID = 109768327;
+function reachGoal(goal, params = {}) {
+  try {
+    if (typeof ym === 'function') {
+      ym(METRIKA_ID, 'reachGoal', goal, params);
+    }
+  } catch (e) {}
+}
+
 const scenarios = [
   {
     id:'mobile',
@@ -155,6 +165,7 @@ function renderTabs(){
     if(!btn) return;
     document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
     btn.classList.add('active');
+    reachGoal('assistant_scenario_click', {scenario: btn.dataset.id});
     renderScenario(btn.dataset.id);
   });
 }
@@ -187,6 +198,7 @@ function renderPricing(){
   pricing.addEventListener('click', e=>{
     const btn = e.target.closest('[data-buy]');
     if(!btn) return;
+    reachGoal('tariff_buy_click', {tariff: btn.dataset.buy});
     openOrder(btn.dataset.buy);
   });
 }
@@ -218,6 +230,7 @@ function openOrder(id){
   document.getElementById('modalDesc').textContent = `${current.desc} После оплаты комплект можно получить автоматически через Telegram.`;
   statusBox.textContent = '';
   statusBox.className = 'status';
+  reachGoal('order_modal_open', {tariff: current.id, price: current.price});
   modal.showModal();
 }
 
@@ -247,16 +260,24 @@ form.addEventListener('submit', async e=>{
     if(!res.ok) throw new Error(data.error || 'Ошибка сервера');
 
     const tg = data.telegramBotLink
-      ? `<br><br><a class="btn ghost" href="${data.telegramBotLink}" target="_blank" rel="noopener">Привязать Telegram для автоматической выдачи</a>`
+      ? `<br><br><a class="btn ghost" href="${data.telegramBotLink}" target="_blank" rel="noopener" data-tg-bind="${data.orderUid}">Привязать Telegram для автоматической выдачи</a>`
       : '';
 
     statusBox.className = 'status ok';
     statusBox.innerHTML = `Заказ создан: <b>${data.orderUid}</b><br>Оплатите ${current.price.toLocaleString('ru-RU')} ₽ по СБП на <b>+7 961 245-25-10</b>.<br>После оплаты привяжите Telegram или отправьте номер заказа в VK.${tg}`;
+    reachGoal('order_created', {tariff: current.id, price: current.price, orderUid: data.orderUid});
     localStorage.setItem('lastOrder', JSON.stringify(data));
   }catch(err){
     statusBox.className = 'status err';
     statusBox.textContent = 'Не удалось создать заказ: ' + (err.message || 'ошибка') + '. Напишите напрямую в VK.';
   }
+});
+
+
+document.addEventListener('click', e=>{
+  const tg = e.target.closest('[data-tg-bind]');
+  if(!tg) return;
+  reachGoal('telegram_bind_click', {orderUid: tg.dataset.tgBind});
 });
 
 document.addEventListener('click', async e=>{
