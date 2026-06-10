@@ -58,3 +58,6 @@ npm run dev
 ```
 
 Для локального D1 нужна отдельная настройка Wrangler. На Cloudflare всё подключается через bindings.
+
+## Важно про API и PWA
+В версии final-api-safe-v4 service worker не кеширует `/api/*`, поэтому `/api/health`, `/api/setup-db` и `/api/orders` всегда идут напрямую в Worker.

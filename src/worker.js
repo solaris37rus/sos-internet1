@@ -174,7 +174,7 @@ export default {
       if (url.pathname === '/api/feedback') return await handleFeedback(request, env);
       if (url.pathname === '/api/setup-db') return await setupDatabase(request, env);
       if (url.pathname === '/api/debug-db') return await debugDb(request, env);
-      if (url.pathname === '/api/health') return json({ ok: true, service: 'sos-internet', build: 'final-autoschema' });
+      if (url.pathname === '/api/health') return json({ ok: true, service: 'sos-internet', build: 'final-api-safe-v4' });
     } catch (err) {
       return json({ ok: false, error: err.message || 'Server error', stack: String(err.stack || '').slice(0, 800) }, 500);
     }
