@@ -102,6 +102,53 @@ async function handleFeedback(request, env) {
   return json({ ok: true });
 }
 
+async function setupDatabase(request, env) {
+  const db = requireDb(env);
+  const url = new URL(request.url);
+  const token = url.searchParams.get('token') || '';
+  const confirm = url.searchParams.get('confirm') || '';
+  if (!env.ADMIN_TOKEN || token !== env.ADMIN_TOKEN) return json({ error: 'Unauthorized' }, 401);
+  if (confirm !== 'reset') return json({ error: 'Add &confirm=reset to initialize database' }, 400);
+
+  await db.prepare('DROP TABLE IF EXISTS orders').run();
+  await db.prepare('DROP TABLE IF EXISTS feedback').run();
+
+  await db.prepare(`
+    CREATE TABLE IF NOT EXISTS orders (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      order_uid TEXT UNIQUE NOT NULL,
+      tariff_id TEXT NOT NULL,
+      tariff_name TEXT NOT NULL,
+      amount_rub INTEGER NOT NULL,
+      customer_name TEXT NOT NULL,
+      customer_contact TEXT NOT NULL,
+      customer_city TEXT,
+      use_case TEXT,
+      comment TEXT,
+      status TEXT NOT NULL DEFAULT 'awaiting_payment',
+      payment_method TEXT NOT NULL DEFAULT 'sbp_alfa',
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )
+  `).run();
+
+  await db.prepare('CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)').run();
+  await db.prepare('CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at)').run();
+
+  await db.prepare(`
+    CREATE TABLE IF NOT EXISTS feedback (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT,
+      contact TEXT,
+      message TEXT NOT NULL,
+      page TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    )
+  `).run();
+
+  return json({ ok: true, message: 'Database initialized', tables: ['orders', 'feedback'] });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -113,6 +160,7 @@ export default {
     try {
       if (url.pathname === '/api/orders') return await handleOrders(request, env);
       if (url.pathname === '/api/feedback') return await handleFeedback(request, env);
+      if (url.pathname === '/api/setup-db') return await setupDatabase(request, env);
       if (url.pathname === '/api/health') return json({ ok: true, service: 'sos-internet' });
     } catch (err) {
       return json({ error: err.message || 'Server error' }, 500);
