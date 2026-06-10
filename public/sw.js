@@ -1,5 +1,5 @@
-const CACHE_NAME = 'sos-internet-v4-api-safe';
-const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest', '/assets/icon.svg', '/admin.html', '/admin.js'];
+const CACHE_NAME = 'sos-internet-premium-v8';
+const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest', '/assets/icon.svg', '/admin.html', '/admin.js', '/admin'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
@@ -16,8 +16,6 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const req = event.request;
   const url = new URL(req.url);
-
-  // ВАЖНО: API никогда не кешируем и не подменяем index.html.
   if (url.pathname.startsWith('/api/')) return;
   if (req.method !== 'GET') return;
 
@@ -25,7 +23,7 @@ self.addEventListener('fetch', event => {
     caches.match(req).then(cached => {
       if (cached) return cached;
       return fetch(req).then(res => {
-        if (res && res.ok && res.type === 'basic') {
+        if (res && res.ok) {
           const copy = res.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
         }

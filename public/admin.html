@@ -3,24 +3,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070b14" />
   <title>Админка — SOS Интернет</title>
   <link rel="stylesheet" href="/styles.css" />
-  <style>
-    body{padding:40px 5vw}.admin-wrap{max-width:1100px;margin:auto}.admin-panel{padding:24px;border:1px solid var(--line);border-radius:28px;background:rgba(255,255,255,.06)}table{width:100%;border-collapse:collapse;margin-top:20px}th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--accent)}.admin-controls{display:flex;gap:12px;flex-wrap:wrap}select.small{width:auto}.token{max-width:440px}.status-pill{padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.08);display:inline-block}.admin-note{color:var(--muted);line-height:1.55}</style>
 </head>
-<body>
-  <main class="admin-wrap">
-    <a class="brand" href="/"><span class="brand-mark">SOS</span><span class="brand-text">Интернет</span></a>
-    <h1>Админка заказов</h1>
-    <p class="admin-note">Введите ADMIN_TOKEN из Cloudflare Pages → Settings → Environment variables. Токен хранится только в localStorage вашего браузера.</p>
-    <section class="admin-panel">
-      <div class="admin-controls">
-        <input class="token" id="token" placeholder="ADMIN_TOKEN" />
-        <button class="btn btn-primary" id="saveToken">Сохранить токен</button>
-        <button class="btn btn-secondary" id="loadOrders">Загрузить заказы</button>
+<body class="admin-body">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <main class="admin-shell">
+    <header class="admin-hero glass-panel">
+      <div class="admin-hero__left">
+        <a class="brand" href="/"><span class="brand-mark">SOS</span><span class="brand-text">Интернет</span></a>
+        <div class="badge"><span></span> Premium Admin</div>
+        <h1>Панель заказов</h1>
+        <p class="admin-note">Управляйте заявками, статусами и оплатами в одном месте. Если секрет ADMIN_TOKEN не задан в Cloudflare, работает резервный токен по умолчанию.</p>
       </div>
+      <div class="admin-stats">
+        <div class="mini-stat"><span>Всего заказов</span><strong id="statCount">0</strong></div>
+        <div class="mini-stat"><span>Сумма заказов</span><strong id="statRevenue">0 ₽</strong></div>
+        <div class="mini-stat"><span>Оплачено / выдано</span><strong id="statPaid">0</strong></div>
+      </div>
+    </header>
+
+    <section class="admin-panel premium-panel">
+      <div class="admin-toolbar">
+        <div class="field-group grow">
+          <label for="token">ADMIN_TOKEN</label>
+          <input class="token" id="token" placeholder="ADMIN_TOKEN" />
+        </div>
+        <div class="field-group compact">
+          <label for="filterStatus">Фильтр</label>
+          <select id="filterStatus">
+            <option value="">Все статусы</option>
+            <option value="awaiting_payment">awaiting_payment</option>
+            <option value="paid">paid</option>
+            <option value="delivered">delivered</option>
+            <option value="cancelled">cancelled</option>
+          </select>
+        </div>
+        <div class="toolbar-actions">
+          <button class="btn btn-primary" id="saveToken">Сохранить токен</button>
+          <button class="btn btn-secondary" id="loadOrders">Загрузить заказы</button>
+        </div>
+      </div>
+
       <div id="adminStatus" class="form-status"></div>
-      <div style="overflow:auto"><table id="ordersTable"></table></div>
+
+      <div class="table-wrap">
+        <table id="ordersTable" class="premium-table"></table>
+      </div>
     </section>
   </main>
   <script src="/admin.js"></script>
