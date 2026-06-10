@@ -3,107 +3,262 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="theme-color" content="#050714"/>
-  <meta name="description" content="SOS Интернет — цифровой План Б при сбоях интернета, связи, банков, карт и оплат."/>
-  <title>SOS Интернет — Цифровой План Б</title>
+  <meta name="theme-color" content="#060916"/>
+  <meta name="description" content="SOS Интернет — премиальный цифровой План Б при сбоях интернета, банков, карт, связи и оплаты."/>
+  <title>SOS Интернет — Премиальный Цифровой План Б</title>
   <link rel="manifest" href="/manifest.webmanifest"/>
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="/styles.css"/>
 </head>
 <body>
-  <div class="noise"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div>
+  <div class="backdrop-grid"></div>
+  <div class="noise"></div>
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+
   <header class="topbar">
     <a href="/" class="brand"><span class="mark">SOS</span><span>Интернет</span></a>
-    <nav><a href="#assistant">Помощник</a><a href="#kits">Тарифы</a><a href="#how">Как работает</a><a href="/admin">Админка</a><a href="/diagnostics">Диагностика</a></nav>
-    <a class="pill" href="#kits">Купить План Б</a>
+    <nav>
+      <a href="#assistant">Помощник</a>
+      <a href="#benefits">Преимущества</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#compare">Сравнение</a>
+      <a href="#faq">FAQ</a>
+      <a href="/admin">Админка</a>
+    </nav>
+    <a class="pill" href="#pricing">Получить План Б</a>
   </header>
 
   <main>
-    <section class="hero">
+    <section class="hero container">
       <div class="hero-copy">
-        <div class="eyebrow"><span></span> Premium PWA для России</div>
-        <h1>Когда интернет ломается — у тебя уже есть план.</h1>
-        <p class="lead">SOS Интернет помогает заранее подготовить телефон, семью, водителя или бизнес к сбоям мобильного интернета, мессенджеров, банков, карт и оплат.</p>
-        <div class="cta-row">
-          <a class="btn primary" href="#assistant">Открыть помощник</a>
-          <a class="btn ghost" href="#kits">Выбрать комплект</a>
+        <div class="eyebrow"><span></span> Готовый коммерческий продукт</div>
+        <h1>Когда всё лагает — у клиента уже есть <em>план действий</em>.</h1>
+        <p class="lead">SOS Интернет — это не “очередные советы”. Это готовый цифровой комплект под реальные сбои: интернет, банк, карта, оплата, связь, семья, работа, водитель и бизнес.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#pricing">Выбрать тариф</a>
+          <a class="btn ghost" href="#assistant">Посмотреть помощник</a>
         </div>
-        <p class="fine">Это не VPN и не средство обхода. Это аварийные инструкции, резервные контакты, шаблоны и автоматическая выдача цифрового комплекта.</p>
+        <div class="hero-proof">
+          <div><b>4</b><span>тарифа под разные сценарии</span></div>
+          <div><b>PWA</b><span>устанавливается как приложение</span></div>
+          <div><b>TG</b><span>автовыдача после статуса paid</span></div>
+        </div>
       </div>
-      <div class="device">
-        <div class="device-top"><span></span></div>
-        <div class="device-screen">
-          <div class="alert">SOS MODE</div>
-          <h2>Что случилось?</h2>
-          <button>Нет мобильного интернета</button>
-          <button>Не работает банк</button>
-          <button>Не проходит оплата</button>
-          <button>Нужно связаться с семьёй</button>
-          <div class="screen-note"><b>Действие:</b> переходи на звонок/SMS, открой офлайн-карту, используй резервный способ оплаты.</div>
-        </div>
+
+      <div class="hero-stack">
+        <article class="phone-card glass">
+          <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-body">
+              <div class="mini-label">SOS MODE</div>
+              <h3>Что случилось?</h3>
+              <button class="screen-btn">Нет мобильного интернета</button>
+              <button class="screen-btn">Не открывается банк</button>
+              <button class="screen-btn">Не проходит оплата</button>
+              <button class="screen-btn">Нужно связаться с семьёй</button>
+              <div class="screen-hint"><b>Первый шаг:</b> перейти на звонок / SMS / офлайн-данные / резервную оплату.</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="floating-card glass fc-a">
+          <span class="caps">Что получает клиент</span>
+          <b>TXT-документ</b>
+          <p>Открывается с телефона и ПК. Можно сохранить, переслать, распечатать.</p>
+        </article>
+
+        <article class="floating-card glass fc-b">
+          <span class="caps">Автоматизация</span>
+          <b>Telegram-выдача</b>
+          <p>Клиент привязывает бот → ты ставишь paid → комплект уходит автоматически.</p>
+        </article>
       </div>
     </section>
 
-    <section class="metrics">
-      <div><b>24/7</b><span>доступ к инструкции</span></div>
-      <div><b>PWA</b><span>установка на телефон</span></div>
-      <div><b>D1</b><span>заказы в базе</span></div>
-      <div><b>TG</b><span>авто-выдача после оплаты</span></div>
+    <section class="trust-row container">
+      <div class="trust-pill">Для обычного человека</div>
+      <div class="trust-pill">Для семьи</div>
+      <div class="trust-pill">Для водителя</div>
+      <div class="trust-pill">Для бизнеса</div>
+      <div class="trust-pill">Работает как PWA</div>
+      <div class="trust-pill">База заказов + админка</div>
     </section>
 
-    <section id="assistant" class="section">
+    <section id="benefits" class="section container">
+      <div class="section-head">
+        <span class="label">Преимущества</span>
+        <h2>Почему это выглядит как премиальный продукт, а не как “текст за деньги”</h2>
+        <p>Внутри не вода, а уже собранный набор: быстрые действия, шаблоны, антискам, чек-листы, сценарии, поля для заполнения и отдельные блоки под тариф.</p>
+      </div>
+
+      <div class="benefit-grid">
+        <article class="benefit glass">
+          <span>01</span>
+          <h3>Готовые сценарии</h3>
+          <p>Не надо думать с нуля. Клиент открывает файл и сразу действует по шагам.</p>
+        </article>
+        <article class="benefit glass">
+          <span>02</span>
+          <h3>Реальная польза</h3>
+          <p>Есть SMS-шаблоны, тексты для семьи, клиента, диспетчера, сотрудника и продавца.</p>
+        </article>
+        <article class="benefit glass">
+          <span>03</span>
+          <h3>Офлайн-доступ</h3>
+          <p>Комплект можно сохранить на телефоне, в заметках, в Telegram или распечатать.</p>
+        </article>
+        <article class="benefit glass">
+          <span>04</span>
+          <h3>Автовыдача</h3>
+          <p>После оплаты комплект отправляется в Telegram. Не нужно вручную пересылать файл каждый раз.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="assistant" class="section container">
       <div class="section-head">
         <span class="label">Интерактивный помощник</span>
-        <h2>Выбери проблему — получи чёткий план действий</h2>
-        <p>Бесплатная часть помогает сразу. Платный комплект сохраняет готовые памятки, шаблоны и инструкции под твой сценарий.</p>
+        <h2>Бесплатная часть уже даёт результат</h2>
+        <p>Человек выбирает свою проблему и мгновенно получает первый понятный план действий. Платный комплект даёт глубокую версию и готовые документы.</p>
       </div>
-      <div class="assistant-grid">
+      <div class="assistant-shell glass">
         <div class="scenario-tabs" id="scenarioTabs"></div>
         <div class="scenario-view" id="scenarioView"></div>
       </div>
     </section>
 
-    <section class="section cards">
-      <article class="card big"><span>01</span><h3>Режим паники</h3><p>Один экран без воды: что нажать, кому звонить, как оплатить, как доехать, как связаться.</p></article>
-      <article class="card"><span>02</span><h3>Для семьи</h3><p>Памятка крупным текстом для родителей и пожилых родственников.</p></article>
-      <article class="card"><span>03</span><h3>Для водителя</h3><p>Офлайн-карты, шаблоны клиенту и чек-лист перед сменой.</p></article>
-      <article class="card"><span>04</span><h3>Для бизнеса</h3><p>Инструкции сотруднику, QR-комплект, форма заявки и сценарии оплаты.</p></article>
-      <article class="card wide"><span>05</span><h3>Автоматическая выдача</h3><p>Клиент привязывает Telegram к заказу. Ты ставишь paid в админке — комплект уходит автоматически.</p></article>
+    <section class="section container">
+      <div class="section-head">
+        <span class="label">Что внутри</span>
+        <h2>Каждый комплект насыщен содержанием</h2>
+      </div>
+      <div class="inside-grid">
+        <article class="inside-card glass">
+          <h3>Базовое ядро</h3>
+          <ul>
+            <li>быстрый старт за 15 минут;</li>
+            <li>правило 3 минут;</li>
+            <li>диагностика сбоя;</li>
+            <li>антискам-блок;</li>
+            <li>офлайн-данные для заполнения.</li>
+          </ul>
+        </article>
+        <article class="inside-card glass">
+          <h3>Практика</h3>
+          <ul>
+            <li>SMS и короткие тексты;</li>
+            <li>сценарии по банку, оплате, связи;</li>
+            <li>готовые фразы для продавца, семьи, работы;</li>
+            <li>дорожные и рабочие ситуации;</li>
+            <li>резервные действия.</li>
+          </ul>
+        </article>
+        <article class="inside-card glass">
+          <h3>Выдача</h3>
+          <ul>
+            <li>красивый сайт с тарифами;</li>
+            <li>форма заказа и админка;</li>
+            <li>хранение заказов в D1;</li>
+            <li>Telegram-бот и webhook;</li>
+            <li>автоматическая отправка TXT-файла.</li>
+          </ul>
+        </article>
+      </div>
     </section>
 
-    <section id="kits" class="section">
+    <section id="pricing" class="section container">
       <div class="section-head">
         <span class="label">Тарифы</span>
-        <h2>Что получает человек</h2>
-        <p>Каждый тариф выдаётся отдельным текстовым документом: чек-листы, SMS-шаблоны, антискам, сценарии и готовые инструкции под ситуацию.</p>
+        <h2>Что получает человек после оплаты</h2>
+        <p>После создания заказа клиент переводит оплату по СБП на Альфа-Банк, привязывает Telegram и получает готовый документ именно по выбранному тарифу.</p>
       </div>
-      <div class="pricing" id="pricing"></div>
+      <div class="pricing" id="pricingCards"></div>
     </section>
 
-    <section id="how" class="section how">
-      <div>
-        <span class="label">Схема</span>
-        <h2>Как всё работает после покупки</h2>
+    <section id="compare" class="section container">
+      <div class="section-head">
+        <span class="label">Сравнение</span>
+        <h2>Чем отличаются тарифы</h2>
       </div>
-      <div class="timeline">
-        <div><b>1</b><p>Клиент выбирает тариф и создаёт заказ.</p></div>
-        <div><b>2</b><p>Сайт показывает номер заказа, оплату по СБП и Telegram-кнопку.</p></div>
-        <div><b>3</b><p>Клиент нажимает Start в боте — Telegram привязывается к заказу.</p></div>
-        <div><b>4</b><p>Ты ставишь статус paid в админке — бот автоматически отправляет комплект.</p></div>
+      <div class="compare-wrap glass">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Что входит</th>
+              <th>Личный</th>
+              <th>Семейный</th>
+              <th>Водитель</th>
+              <th>Бизнес</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Базовые аварийные сценарии</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+            <tr><td>SMS-шаблоны и антискам</td><td>✓</td><td>✓ расширено</td><td>✓</td><td>✓</td></tr>
+            <tr><td>Материалы для родителей/семьи</td><td>—</td><td>✓</td><td>—</td><td>—</td></tr>
+            <tr><td>Смена / маршрут / диспетчер</td><td>—</td><td>—</td><td>✓</td><td>—</td></tr>
+            <tr><td>Сотрудники / заявки / QR / оплата</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+            <tr><td>TXT-документ для выдачи</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <section class="section contact">
+    <section class="section container">
+      <div class="section-head">
+        <span class="label">Как это работает</span>
+        <h2>Схема продажи без лишних действий</h2>
+      </div>
+      <div class="timeline premium-timeline">
+        <div class="glass"><b>1</b><h3>Клиент оформляет заказ</h3><p>Выбирает тариф и оставляет контакт.</p></div>
+        <div class="glass"><b>2</b><h3>Оплачивает по СБП</h3><p>Номер оплаты сразу показан в форме.</p></div>
+        <div class="glass"><b>3</b><h3>Привязывает Telegram</h3><p>Нажимает кнопку и отправляет /start с номером заказа.</p></div>
+        <div class="glass"><b>4</b><h3>Ты ставишь paid</h3><p>Бот отправляет сообщение и TXT-файл автоматически.</p></div>
+      </div>
+    </section>
+
+    <section id="faq" class="section container">
+      <div class="section-head">
+        <span class="label">FAQ</span>
+        <h2>Частые вопросы клиента</h2>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </section>
+
+    <section class="section container support-banner glass">
       <div>
         <span class="label">Поддержка</span>
-        <h2>Вопросы и ручная выдача</h2>
-        <p>Если клиент не привязал Telegram, он отправляет номер заказа в VK или email.</p>
+        <h2>Если Telegram не привязан — всегда есть ручная выдача</h2>
+        <p>Клиент может отправить номер заказа напрямую в VK или на email. Это снижает потерю продаж и делает продукт устойчивым.</p>
       </div>
-      <div class="cta-row"><a class="btn primary" href="https://vk.com/bread1996" target="_blank">VK</a><a class="btn ghost" href="mailto:slava.plekhanov.2002@gmail.com">Email</a></div>
+      <div class="hero-actions">
+        <a class="btn primary" target="_blank" href="https://vk.com/bread1996">Открыть VK</a>
+        <a class="btn ghost" href="mailto:slava.plekhanov.2002@gmail.com">Написать на email</a>
+      </div>
     </section>
   </main>
 
-  <footer><b>SOS Интернет</b><span>Цифровой План Б. Сайт, база, админка, Telegram-выдача.</span></footer>
+  <footer class="footer container">
+    <div>
+      <a href="/" class="brand"><span class="mark">SOS</span><span>Интернет</span></a>
+      <p>Премиальный цифровой План Б: сайт, база, админка, бот и автоматическая выдача комплектов.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#pricing">Тарифы</a>
+      <a href="#compare">Сравнение</a>
+      <a href="#faq">FAQ</a>
+      <a href="/diagnostics">Диагностика</a>
+    </div>
+  </footer>
+
+  <div class="sticky-buy">
+    <div>
+      <small>Готовый цифровой продукт</small>
+      <b>от 399 ₽</b>
+    </div>
+    <a class="btn primary" href="#pricing">Купить</a>
+  </div>
 
   <dialog id="orderModal">
     <form id="orderForm" method="dialog" class="modal">
@@ -116,11 +271,11 @@
       <label>Контакт для связи<input name="contact" required placeholder="email / VK / Telegram / телефон"></label>
       <label>Город<input name="city" placeholder="Например, Краснодар"></label>
       <label>Сценарий<select name="useCase"><option>Для себя</option><option>Для семьи</option><option>Для водителя/курьера</option><option>Для бизнеса</option></select></label>
-      <label>Комментарий<textarea name="comment" rows="3" placeholder="Что важно учесть?"></textarea></label>
+      <label>Комментарий<textarea name="comment" rows="4" placeholder="Что важно учесть?"></textarea></label>
       <div class="paybox">
         <b>Оплата по СБП / Альфа-Банк</b>
         <p>Номер: <button type="button" class="copy" data-copy="+79612452510">+7 961 245-25-10</button></p>
-        <p>После оплаты привяжите Telegram или отправьте номер заказа в VK.</p>
+        <p>После оплаты привяжите Telegram через кнопку ниже или напишите номер заказа в VK.</p>
       </div>
       <button class="btn primary full" type="submit">Создать заказ</button>
       <div id="formStatus" class="status"></div>

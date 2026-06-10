@@ -1,4 +1,4 @@
-const VERSION = 'premium-value-pack-v14';
+const VERSION = 'premium-ui-commercial-v15';
 const FALLBACK_ADMIN_TOKEN = 'sos_admin_2026_super_secret';
 
 const TARIFFS = {
