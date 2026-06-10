@@ -36,16 +36,28 @@ function requireAdmin(request, env) {
   return Boolean(env.ADMIN_TOKEN && token === env.ADMIN_TOKEN);
 }
 
+async function hasColumn(db, table, column) {
+  const info = await db.prepare(`PRAGMA table_info(${table})`).all();
+  return Boolean((info.results || []).some((row) => row.name === column));
+}
+
+async function addColumnIfMissing(db, table, column, definition) {
+  if (!(await hasColumn(db, table, column))) {
+    await db.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();
+  }
+}
+
 async function ensureSchema(db) {
+  // Создаём новую структуру, если таблиц ещё нет.
   await db.prepare(`
     CREATE TABLE IF NOT EXISTS orders (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      order_uid TEXT UNIQUE NOT NULL,
-      tariff_id TEXT NOT NULL,
-      tariff_name TEXT NOT NULL,
-      amount_rub INTEGER NOT NULL,
-      customer_name TEXT NOT NULL,
-      customer_contact TEXT NOT NULL,
+      order_uid TEXT UNIQUE,
+      tariff_id TEXT,
+      tariff_name TEXT,
+      amount_rub INTEGER,
+      customer_name TEXT,
+      customer_contact TEXT,
       customer_city TEXT,
       use_case TEXT,
       comment TEXT,
@@ -55,8 +67,28 @@ async function ensureSchema(db) {
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     )
   `).run();
+
+  // Если у пользователя уже была старая таблица orders, аккуратно добавляем недостающие поля.
+  await addColumnIfMissing(db, 'orders', 'order_uid', 'TEXT UNIQUE');
+  await addColumnIfMissing(db, 'orders', 'tariff_id', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'tariff_name', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'amount_rub', 'INTEGER');
+  await addColumnIfMissing(db, 'orders', 'customer_city', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'use_case', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'comment', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'payment_method', "TEXT DEFAULT 'sbp_alfa'");
+  await addColumnIfMissing(db, 'orders', 'updated_at', "TEXT DEFAULT (datetime('now'))");
+
+  // Совместимость со старой схемой, где поля назывались иначе.
+  await addColumnIfMissing(db, 'orders', 'order_number', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'plan_id', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'plan_title', 'TEXT');
+  await addColumnIfMissing(db, 'orders', 'price', 'INTEGER');
+  await addColumnIfMissing(db, 'orders', 'customer_comment', 'TEXT');
+
   await db.prepare('CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status)').run();
   await db.prepare('CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at)').run();
+
   await db.prepare(`
     CREATE TABLE IF NOT EXISTS feedback (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,6 +99,7 @@ async function ensureSchema(db) {
       created_at TEXT NOT NULL DEFAULT (datetime('now'))
     )
   `).run();
+  await addColumnIfMissing(db, 'feedback', 'page', 'TEXT');
 }
 
 async function resetSchema(db) {
@@ -95,9 +128,15 @@ async function handleOrders(request, env) {
     const comment = sanitize(body.comment, 1000);
 
     await db.prepare(`
-      INSERT INTO orders (order_uid, tariff_id, tariff_name, amount_rub, customer_name, customer_contact, customer_city, use_case, comment)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(orderUid, tariffId, tariff.name, tariff.price, name, contact, city, useCase, comment).run();
+      INSERT INTO orders (
+        order_uid, order_number, tariff_id, plan_id, tariff_name, plan_title, amount_rub, price,
+        customer_name, customer_contact, customer_city, use_case, comment, customer_comment, status, payment_method, updated_at
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'awaiting_payment', 'sbp_alfa', datetime('now'))
+    `).bind(
+      orderUid, orderUid, tariffId, tariffId, tariff.name, tariff.name, tariff.price, tariff.price,
+      name, contact, city, useCase, comment, comment
+    ).run();
 
     return json({ ok: true, orderUid, status: 'awaiting_payment', amountRub: tariff.price, tariffName: tariff.name });
   }
@@ -174,7 +213,7 @@ export default {
       if (url.pathname === '/api/feedback') return await handleFeedback(request, env);
       if (url.pathname === '/api/setup-db') return await setupDatabase(request, env);
       if (url.pathname === '/api/debug-db') return await debugDb(request, env);
-      if (url.pathname === '/api/health') return json({ ok: true, service: 'sos-internet', build: 'final-api-safe-v4' });
+      if (url.pathname === '/api/health') return json({ ok: true, service: 'sos-internet', build: 'compat-db-v5' });
     } catch (err) {
       return json({ ok: false, error: err.message || 'Server error', stack: String(err.stack || '').slice(0, 800) }, 500);
     }
