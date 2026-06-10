@@ -52,7 +52,7 @@ async function ensureSchema(db) {
   await db.prepare(`
     CREATE TABLE IF NOT EXISTS orders (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      order_uid TEXT UNIQUE,
+      order_uid TEXT,
       tariff_id TEXT,
       tariff_name TEXT,
       amount_rub INTEGER,
@@ -69,7 +69,7 @@ async function ensureSchema(db) {
   `).run();
 
   // Если у пользователя уже была старая таблица orders, аккуратно добавляем недостающие поля.
-  await addColumnIfMissing(db, 'orders', 'order_uid', 'TEXT UNIQUE');
+  await addColumnIfMissing(db, 'orders', 'order_uid', 'TEXT');
   await addColumnIfMissing(db, 'orders', 'tariff_id', 'TEXT');
   await addColumnIfMissing(db, 'orders', 'tariff_name', 'TEXT');
   await addColumnIfMissing(db, 'orders', 'amount_rub', 'INTEGER');
@@ -77,7 +77,7 @@ async function ensureSchema(db) {
   await addColumnIfMissing(db, 'orders', 'use_case', 'TEXT');
   await addColumnIfMissing(db, 'orders', 'comment', 'TEXT');
   await addColumnIfMissing(db, 'orders', 'payment_method', "TEXT DEFAULT 'sbp_alfa'");
-  await addColumnIfMissing(db, 'orders', 'updated_at', "TEXT DEFAULT (datetime('now'))");
+  await addColumnIfMissing(db, 'orders', 'updated_at', 'TEXT');
 
   // Совместимость со старой схемой, где поля назывались иначе.
   await addColumnIfMissing(db, 'orders', 'order_number', 'TEXT');
@@ -213,7 +213,7 @@ export default {
       if (url.pathname === '/api/feedback') return await handleFeedback(request, env);
       if (url.pathname === '/api/setup-db') return await setupDatabase(request, env);
       if (url.pathname === '/api/debug-db') return await debugDb(request, env);
-      if (url.pathname === '/api/health') return json({ ok: true, service: 'sos-internet', build: 'compat-db-v5' });
+      if (url.pathname === '/api/health') return json({ ok: true, service: 'sos-internet', build: 'compat-db-v6' });
     } catch (err) {
       return json({ ok: false, error: err.message || 'Server error', stack: String(err.stack || '').slice(0, 800) }, 500);
     }
