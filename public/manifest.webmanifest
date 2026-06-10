@@ -1,0 +1,13 @@
+{
+  "name": "SOS Интернет — Цифровой План Б",
+  "short_name": "SOS Интернет",
+  "description": "Аварийный помощник при сбоях интернета, связи, банков, карт и оплат.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080B12",
+  "theme_color": "#080B12",
+  "orientation": "portrait-primary",
+  "icons": [
+    {"src":"/assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

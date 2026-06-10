@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#080B12" />
+  <meta name="description" content="SOS Интернет — аварийный PWA-помощник: что делать, если не работает мобильный интернет, Telegram, банк, карта, такси или оплата." />
+  <title>SOS Интернет — цифровой план Б</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="SOS Интернет">
+      <span class="brand-mark">SOS</span>
+      <span class="brand-text">Интернет</span>
+    </a>
+    <nav class="nav">
+      <a href="#helper">Помощник</a>
+      <a href="#plans">Тарифы</a>
+      <a href="#offline">PWA</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="top-cta" href="#plans">Купить План Б</a>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-copy">
+        <div class="badge"><span></span> Аварийный помощник для России</div>
+        <h1>Интернет пропал. Банк не открывается. Мессенджер молчит. Что делать?</h1>
+        <p class="lead">SOS Интернет заранее сохраняет в телефоне пошаговый План Б: связь, оплата, карты, банки, семья, водитель и бизнес — без паники и лишних слов.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#helper">Открыть помощник</a>
+          <a class="btn btn-secondary" href="#plans">Сохранить План Б</a>
+        </div>
+        <p class="micro">Не обещаем «починить интернет». Даём понятный порядок действий, когда привычные сервисы не работают.</p>
+      </div>
+      <div class="phone-card" aria-label="Превью приложения SOS Интернет">
+        <div class="phone-top"><span></span><span></span></div>
+        <div class="phone-screen">
+          <div class="screen-alert">Режим SOS</div>
+          <h2>Что случилось?</h2>
+          <button>Нет мобильного интернета</button>
+          <button>Не открывается банк</button>
+          <button>Не работает Telegram</button>
+          <button>Не проходит оплата</button>
+          <div class="screen-result">
+            <strong>Первый шаг:</strong> проверьте обычный звонок и SMS. Если открываются только отдельные сервисы — переходите на базовые каналы связи.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div><strong>20+</strong><span>аварийных сценариев</span></div>
+      <div><strong>Offline</strong><span>после установки PWA</span></div>
+      <div><strong>QR</strong><span>резервная связь</span></div>
+      <div><strong>СБП</strong><span>оплата переводом</span></div>
+    </section>
+
+    <section id="helper" class="section helper-section">
+      <div class="section-head">
+        <span class="kicker">Интерактивный помощник</span>
+        <h2>Выберите проблему — получите короткий план действий</h2>
+        <p>Бесплатная часть помогает сейчас. Полный План Б сохраняет инструкции, контакты, шаблоны и памятки на телефон.</p>
+      </div>
+      <div class="helper-grid">
+        <aside class="scenario-list" id="scenarioList"></aside>
+        <article class="scenario-card" id="scenarioCard">
+          <div class="scenario-empty">Выберите ситуацию слева.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section feature-grid">
+      <article class="feature-card large">
+        <span class="card-icon">01</span>
+        <h3>Режим паники</h3>
+        <p>Один экран без лишнего текста: звонок, SMS, офлайн-карта, оплата, связь с семьёй, резервный канал.</p>
+      </article>
+      <article class="feature-card">
+        <span class="card-icon">02</span>
+        <h3>Цифровой рюкзак</h3>
+        <p>Важные контакты, адреса, банки, маршруты и шаблоны сохраняются локально в телефоне.</p>
+      </article>
+      <article class="feature-card">
+        <span class="card-icon">03</span>
+        <h3>Семейная памятка</h3>
+        <p>Крупные инструкции для родителей: куда звонить, что не нажимать и кому доверять.</p>
+      </article>
+      <article class="feature-card">
+        <span class="card-icon">04</span>
+        <h3>Бизнес-страница</h3>
+        <p>QR-код, форма заявки, резервные контакты и инструкции для клиентов при сбоях связи.</p>
+      </article>
+      <article class="feature-card wide">
+        <span class="card-icon">05</span>
+        <h3>Проверка готовности</h3>
+        <p>Сайт показывает, насколько вы готовы к сбоям: нет офлайн-карты, нет SMS-шаблонов, нет резервной связи, нет памятки для семьи.</p>
+      </article>
+    </section>
+
+    <section id="offline" class="section split">
+      <div>
+        <span class="kicker">PWA</span>
+        <h2>Устанавливается как приложение и открывается даже при плохой связи</h2>
+        <p>Добавьте сайт на главный экран телефона. Основные сценарии, чек-листы и шаблоны кэшируются и остаются доступными без стабильного интернета.</p>
+        <div class="install-box">
+          <button class="btn btn-primary" id="installBtn" hidden>Установить приложение</button>
+          <span id="installHint">Если кнопка установки не появилась: откройте меню браузера → «Добавить на главный экран».</span>
+        </div>
+      </div>
+      <div class="glass-panel">
+        <h3>Что сохраняется</h3>
+        <ul class="check-list">
+          <li>Пошаговые инструкции при сбоях</li>
+          <li>Шаблоны SMS и объявлений</li>
+          <li>Чек-лист подготовки телефона</li>
+          <li>Памятки для семьи, водителя и бизнеса</li>
+          <li>Контакты поддержки проекта</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="plans" class="section pricing-section">
+      <div class="section-head">
+        <span class="kicker">Тарифы</span>
+        <h2>Выберите свой План Б</h2>
+        <p>После покупки вы получаете цифровой комплект и инструкцию. Заказ сохраняется в базе, а оплата выполняется переводом по СБП на Альфа-Банк.</p>
+      </div>
+      <div class="pricing-grid" id="pricingGrid"></div>
+    </section>
+
+    <section class="section ready-check">
+      <div class="section-head left">
+        <span class="kicker">Проверка готовности</span>
+        <h2>Ваш телефон готов к сбоям?</h2>
+      </div>
+      <div class="quiz" id="quiz"></div>
+    </section>
+
+    <section class="section contact-section">
+      <div class="contact-card">
+        <div>
+          <span class="kicker">Связь</span>
+          <h2>Вопросы, заявки и поддержка</h2>
+          <p>Пишите по проекту в VK или на email. После оплаты укажите номер заказа, чтобы быстрее получить комплект.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="https://vk.com/bread1996" target="_blank" rel="noopener">Написать в VK</a>
+          <a class="btn btn-secondary" href="mailto:slava.plekhanov.2002@gmail.com">Email</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq-section">
+      <div class="section-head">
+        <span class="kicker">FAQ</span>
+        <h2>Важные вопросы</h2>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary>Это VPN?</summary>
+          <p>Нет. SOS Интернет не является VPN и не продаёт обход ограничений. Это помощник с инструкциями, чек-листами, резервными контактами и сценариями действий.</p>
+        </details>
+        <details>
+          <summary>Оплата подтверждается автоматически?</summary>
+          <p>Нет. Перевод по СБП подтверждается вручную. После оплаты напишите номер заказа в VK или email.</p>
+        </details>
+        <details>
+          <summary>Будет ли сайт работать без интернета?</summary>
+          <p>После первой загрузки PWA сохраняет основные страницы, сценарии и шаблоны. Для отправки заказа и обновлений интернет всё равно нужен.</p>
+        </details>
+        <details>
+          <summary>Где хранятся мои заявки?</summary>
+          <p>Заявки сохраняются в Cloudflare D1-базе. Личные заметки и быстрый план можно хранить локально в браузере.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <strong>SOS Интернет</strong>
+      <span>Цифровой План Б для связи, оплат, карт, семьи и бизнеса.</span>
+    </div>
+    <a href="mailto:slava.plekhanov.2002@gmail.com">slava.plekhanov.2002@gmail.com</a>
+  </footer>
+
+  <dialog class="order-modal" id="orderModal">
+    <form method="dialog" class="modal-inner" id="orderForm">
+      <button class="modal-close" value="cancel" aria-label="Закрыть">×</button>
+      <div class="modal-head">
+        <span class="kicker">Оформление</span>
+        <h2 id="modalPlanName">Тариф</h2>
+        <p id="modalPlanDescription">Описание тарифа</p>
+      </div>
+      <input type="hidden" name="tariffId" id="tariffId" />
+      <label>Ваше имя
+        <input name="name" required placeholder="Например, Вячеслав" />
+      </label>
+      <label>Контакт для выдачи доступа
+        <input name="contact" required placeholder="VK / Telegram / email / телефон" />
+      </label>
+      <label>Город <span>необязательно</span>
+        <input name="city" placeholder="Например, Краснодар" />
+      </label>
+      <label>Для чего нужен План Б?
+        <select name="useCase">
+          <option>Для себя</option>
+          <option>Для семьи</option>
+          <option>Для водителя/курьера</option>
+          <option>Для бизнеса</option>
+        </select>
+      </label>
+      <label>Комментарий <span>необязательно</span>
+        <textarea name="comment" rows="3" placeholder="Например: нужен комплект для родителей или для салона"></textarea>
+      </label>
+      <div class="payment-box">
+        <strong>Оплата по СБП / Альфа-Банк</strong>
+        <p>Перевод на номер: <button type="button" class="copy-phone" data-copy="+79612452510">+7 961 245-25-10</button></p>
+        <p>Получатель: владелец проекта. После оплаты напишите номер заказа в VK: <a href="https://vk.com/bread1996" target="_blank" rel="noopener">vk.com/bread1996</a></p>
+      </div>
+      <button class="btn btn-primary full" type="submit">Создать заказ</button>
+      <div class="form-status" id="formStatus"></div>
+    </form>
+  </dialog>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
