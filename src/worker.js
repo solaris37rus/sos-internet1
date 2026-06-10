@@ -1,4 +1,4 @@
-const VERSION = 'workers-clean-v12';
+const VERSION = 'telegram-doc-delivery-v13';
 const FALLBACK_ADMIN_TOKEN = 'sos_admin_2026_super_secret';
 
 const TARIFFS = {
@@ -194,31 +194,181 @@ function botLink(env, orderUid = '') {
   return orderUid ? `https://t.me/${username}?start=${encodeURIComponent(orderUid)}` : `https://t.me/${username}`;
 }
 
-function deliveryText(order) {
+function deliveryIntroText(order) {
   const o = normalizeOrder(order);
-  const tariff = TARIFFS[o.tariff_id] || { name: o.tariff_name || 'Цифровой План Б', delivery: [] };
+  const tariff = TARIFFS[o.tariff_id] || { name: o.tariff_name || 'Цифровой План Б' };
   return [
-    '✅ Оплата подтверждена',
+    '✅ Оплата подтверждена.',
     '',
     `Заказ: ${o.order_uid}`,
     `Тариф: ${tariff.name}`,
     '',
-    'Что входит в ваш комплект:',
-    ...(tariff.delivery.length ? tariff.delivery : ['цифровой комплект по выбранному тарифу']).map(x => `• ${x}`),
-    '',
-    'Как пользоваться:',
-    '1. Откройте сайт SOS Интернет.',
-    '2. Добавьте сайт на главный экран телефона как приложение.',
-    '3. Заранее сохраните важные контакты, банки, адреса и SMS-шаблоны.',
-    '4. Когда случится сбой — откройте раздел “Что случилось?” и действуйте по шагам.',
-    '',
-    'Сайт:',
-    'https://sos-internet1.slava-plekhanov-2002.workers.dev',
-    '',
-    'Поддержка:',
-    'VK: https://vk.com/bread1996',
-    'Email: slava.plekhanov.2002@gmail.com'
+    'Ниже отправляю ваш цифровой комплект отдельным текстовым файлом.',
+    'Файл можно открыть с телефона, компьютера, переслать родственникам или сохранить офлайн.'
   ].join('\n');
+}
+
+function section(title, lines) {
+  return [
+    '',
+    '============================================================',
+    title.toUpperCase(),
+    '============================================================',
+    '',
+    ...lines
+  ].join('\n');
+}
+
+function tariffDocument(order) {
+  const o = normalizeOrder(order);
+  const tariff = TARIFFS[o.tariff_id] || { name: o.tariff_name || 'Цифровой План Б', delivery: [] };
+  const today = new Date().toISOString().slice(0, 10);
+
+  const common = [
+    '1. Добавьте сайт SOS Интернет на главный экран телефона.',
+    '2. Сохраните этот файл в “Файлы”, “Заметки”, “Избранное” или отправьте себе в Telegram.',
+    '3. Сохраните важные телефоны: семья, работа, банк, врач, такси, школа/сад.',
+    '4. Подготовьте запасной способ оплаты: наличные, другая карта, СБП, QR.',
+    '5. Договоритесь с близкими: если мессенджер не работает — используем звонок или SMS.',
+    '6. В момент сбоя не паникуйте: сначала определите, что именно не работает.'
+  ];
+
+  const personal = [
+    section('Личный План Б — что делать при сбое', [
+      'Сценарий 1: нет мобильного интернета',
+      '- Проверьте обычный звонок и SMS.',
+      '- Включите и выключите авиарежим один раз.',
+      '- Попробуйте открыть несколько сервисов: Яндекс, VK, банк, 2ГИС.',
+      '- Если работает только часть сервисов — переходите на базовые каналы связи.',
+      '',
+      'Сценарий 2: не открывается банк',
+      '- Не повторяйте платёж много раз подряд.',
+      '- Попробуйте Wi‑Fi, другую карту, СБП или QR.',
+      '- Если платёж срочный — попросите альтернативный способ оплаты.',
+      '',
+      'Сценарий 3: не работает мессенджер',
+      '- Переходите на звонок, SMS, VK или email.',
+      '- Отправьте короткий текст: “Интернет плохо работает, я на связи по звонку/SMS”.',
+      '',
+      'SMS-шаблоны:',
+      '1) “Я в порядке. Интернет плохо работает. Звони или пиши SMS.”',
+      '2) “Не могу открыть банк/мессенджер. Свяжусь, когда восстановится связь.”',
+      '3) “Если срочно — звони обычным звонком.”'
+    ])
+  ];
+
+  const family = [
+    ...personal,
+    section('Семейный План Б — для родителей и родственников', [
+      'Главная цель: дать близким простую инструкцию без сложных слов.',
+      '',
+      'Правило семьи:',
+      '- если не работает Telegram/WhatsApp — звоним обычным звонком;',
+      '- если звонок не проходит — отправляем SMS;',
+      '- если человек не отвечает — ждём 10 минут и повторяем;',
+      '- не переводим деньги по просьбе из сообщения без голосового подтверждения.',
+      '',
+      'Семейная кодовая фраза:',
+      '- придумайте фразу, которую знают только свои;',
+      '- используйте её при просьбах о деньгах, кодах, доступах;',
+      '- если фразу не называют — разговор считается подозрительным.',
+      '',
+      'Антискам:',
+      '- никому не называйте коды из SMS;',
+      '- не устанавливайте приложения по просьбе звонящего;',
+      '- не переводите деньги на “безопасный счёт”;',
+      '- если звонят “из банка” — положите трубку и сами позвоните в банк.'
+    ])
+  ];
+
+  const driver = [
+    ...personal,
+    section('Водитель / Курьер — рабочий чек-лист', [
+      'Перед сменой:',
+      '- зарядите телефон и пауэрбанк;',
+      '- сохраните адреса и скриншоты заказов;',
+      '- проверьте баланс и связь;',
+      '- откройте карту маршрута заранее;',
+      '- сохраните номер диспетчера/клиента.',
+      '',
+      'Если навигатор перестал работать:',
+      '- остановитесь безопасно;',
+      '- откройте офлайн-карту или скрин адреса;',
+      '- свяжитесь с клиентом звонком или SMS;',
+      '- зафиксируйте время сбоя.',
+      '',
+      'Шаблон клиенту:',
+      '“Здравствуйте. Сейчас сбой связи/навигации, я уже в пути. Если не отвечаю в мессенджере — звоните обычным звонком.”',
+      '',
+      'Шаблон диспетчеру:',
+      '“По заказу возник сбой связи/навигации. Адрес/клиент сохранён. Продолжаю выполнение, связь держу через звонок/SMS.”'
+    ])
+  ];
+
+  const business = [
+    ...personal,
+    section('Бизнес План Б — чтобы не терять клиентов', [
+      'Что подготовить заранее:',
+      '- резервный номер телефона;',
+      '- QR-код на страницу связи;',
+      '- короткую форму заявки;',
+      '- текст объявления для клиентов;',
+      '- инструкцию сотруднику на случай сбоя.',
+      '',
+      'Если не работает оплата:',
+      '- предложить СБП по номеру;',
+      '- предложить QR;',
+      '- предложить наличные;',
+      '- записать заказ вручную;',
+      '- не отпускать клиента без альтернативы.',
+      '',
+      'Текст для клиента:',
+      '“Сейчас возможны сбои связи/оплаты. Мы работаем. Для связи используйте звонок/SMS/VK/email. Оплата доступна по СБП или альтернативным способом.”',
+      '',
+      'Инструкция сотруднику:',
+      '1. Спокойно объяснить клиенту, что есть технический сбой.',
+      '2. Предложить альтернативный способ связи.',
+      '3. Предложить альтернативный способ оплаты.',
+      '4. Записать контакт клиента.',
+      '5. После восстановления связи подтвердить заказ.'
+    ])
+  ];
+
+  let tariffSpecific;
+  if (o.tariff_id === 'family') tariffSpecific = family;
+  else if (o.tariff_id === 'driver') tariffSpecific = driver;
+  else if (o.tariff_id === 'business') tariffSpecific = business;
+  else tariffSpecific = personal;
+
+  return [
+    'SOS ИНТЕРНЕТ — ЦИФРОВОЙ ПЛАН Б',
+    '',
+    `Дата выдачи: ${today}`,
+    `Заказ: ${o.order_uid}`,
+    `Тариф: ${tariff.name}`,
+    `Клиент: ${o.customer_name || 'не указано'}`,
+    '',
+    'Этот файл можно открыть на телефоне и компьютере.',
+    'Сохраните его офлайн и отправьте тем, кому он может понадобиться.',
+    '',
+    section('Что входит в покупку', (tariff.delivery && tariff.delivery.length ? tariff.delivery : ['цифровой комплект по выбранному тарифу']).map(x => `- ${x}`)),
+    section('Базовая подготовка', common),
+    ...tariffSpecific,
+    section('Ссылки и поддержка', [
+      'Сайт: https://sos-internet1.slava-plekhanov-2002.workers.dev',
+      'VK: https://vk.com/bread1996',
+      'Email: slava.plekhanov.2002@gmail.com',
+      '',
+      'Если вы не получили нужный комплект или хотите уточнить детали — напишите в поддержку и укажите номер заказа.'
+    ])
+  ].join('\n');
+}
+
+function documentFilename(order) {
+  const o = normalizeOrder(order);
+  const tariff = sanitize(o.tariff_id || 'plan', 40).replace(/[^a-z0-9_-]/gi, '-').toLowerCase();
+  const uid = sanitize(o.order_uid || 'order', 80).replace(/[^a-z0-9_-]/gi, '-');
+  return `${uid}-${tariff}-plan-b.txt`;
 }
 
 async function sendDelivery(database, env, orderUid) {
@@ -232,13 +382,27 @@ async function sendDelivery(database, env, orderUid) {
 
   await tg(env, 'sendMessage', {
     chat_id: o.telegram_chat_id,
-    text: deliveryText(o),
+    text: deliveryIntroText(o),
     disable_web_page_preview: true
   });
 
+  const docText = tariffDocument(o);
+  const file = new Blob([docText], { type: 'text/plain;charset=utf-8' });
+  const form = new FormData();
+  form.append('chat_id', o.telegram_chat_id);
+  form.append('caption', `Ваш комплект: ${o.tariff_name || 'Цифровой План Б'}`);
+  form.append('document', file, documentFilename(o));
+
+  const res = await fetch(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendDocument`, {
+    method: 'POST',
+    body: form
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok || data.ok === false) throw new Error(data.description || 'Telegram sendDocument failed');
+
   await database.prepare("UPDATE orders SET delivery_sent_at = datetime('now'), updated_at = datetime('now') WHERE id = ?")
     .bind(order.id).run();
-  return { sent: true, chatId: o.telegram_chat_id };
+  return { sent: true, chatId: o.telegram_chat_id, document: documentFilename(o) };
 }
 
 async function apiOrders(request, env) {
