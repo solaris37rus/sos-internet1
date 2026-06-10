@@ -6,3 +6,8 @@ compatibility_date = "2026-06-10"
 directory = "./public"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
+
+[[d1_databases]]
+binding = "SOS_DB"
+database_name = "sos-internet-db"
+database_id = "e98964ed-14f8-433d-b785-b6ef87708205"
