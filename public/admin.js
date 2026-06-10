@@ -58,6 +58,7 @@ async function loadOrders(){
         <th>Клиент</th>
         <th>Контакт</th>
         <th>Статус</th>
+        <th>Telegram</th>
         <th>Дата</th>
         <th>Действие</th>
       </tr>
@@ -80,6 +81,11 @@ async function loadOrders(){
           </td>
           <td><div>${o.customer_contact || '—'}</div></td>
           <td><span class="status-pill status-${o.status}">${o.status}</span></td>
+          <td>
+            <div>${o.telegram_chat_id ? '✅ привязан' : '—'}</div>
+            <div class="subtle">${o.telegram_username ? '@' + o.telegram_username : ''}</div>
+            <div class="subtle">${o.delivery_sent_at ? 'выдано: ' + String(o.delivery_sent_at).slice(0,16) : ''}</div>
+          </td>
           <td><div>${String(o.created_at || '').replace('T',' ').slice(0,16)}</div></td>
           <td>
             <select class="small" data-uid="${o.order_uid || o.order_number || ''}">
@@ -109,7 +115,14 @@ table.addEventListener('change', async e=>{
     statusBox.className = 'form-status err';
     return;
   }
-  statusBox.textContent = 'Статус обновлён.';
+  if (data.delivery?.sent) {
+    statusBox.textContent = 'Статус обновлён. Комплект автоматически отправлен в Telegram.';
+  } else if (select.value === 'paid' || select.value === 'delivered') {
+    const reason = data.delivery?.reason || 'unknown';
+    statusBox.textContent = 'Статус обновлён, но автоотправка не выполнена: ' + reason + '. Клиент должен привязать Telegram через кнопку после заказа.';
+  } else {
+    statusBox.textContent = 'Статус обновлён.';
+  }
   statusBox.className = 'form-status ok';
   await loadOrders();
 });

@@ -1,19 +1,35 @@
-# SOS Интернет — premium-v8
 
-Cloudflare Worker + Static Assets + D1.
+# SOS Интернет — telegram-auto-delivery-v9
 
-## Главное
-- Сайт и админка работают из одного Worker.
-- Админка доступна по `/admin` и `/admin.html`.
-- Если переменная `ADMIN_TOKEN` в Cloudflare не задана, сервер использует резервный токен:
-  `sos_admin_2026_super_secret`
-- D1 binding должен называться `SOS_DB`.
+Cloudflare Worker + Static Assets + D1 + автоматическая выдача через Telegram.
 
-## Проверка
-- `/api/health` — показывает build `premium-v8`
-- `/admin` — админка
+## Что появилось
+- Клиент после заказа может нажать кнопку «Привязать Telegram».
+- Telegram-бот получает `/start НОМЕР_ЗАКАЗА` и привязывает chat_id к заказу.
+- Когда в админке поставить статус `paid` или `delivered`, Worker автоматически отправит клиенту комплект в Telegram.
+- Если клиент привязал Telegram после того, как заказ уже был отмечен как `paid`, комплект отправится сразу после привязки.
 
-## Cloudflare
-- Worker name: любой
-- Build command: пусто
-- Deploy command: `npx wrangler deploy`
+## Важно
+Telegram-бот не может сам написать человеку по @username, пока человек первым не откроет бота и не нажмёт Start. Поэтому на сайте после заказа появляется кнопка привязки Telegram.
+
+## Переменные Cloudflare Worker
+Обязательно:
+- `TELEGRAM_BOT_TOKEN` — токен бота из BotFather.
+- `TELEGRAM_BOT_USERNAME` — username бота без @, например `sos_planb_bot`.
+
+Уже было:
+- `ADMIN_TOKEN` — пароль админки. Если не задан, резервный токен: `sos_admin_2026_super_secret`.
+- D1 binding: `SOS_DB`.
+
+## После деплоя
+1. Открой `/api/health` — должно быть `telegram-auto-delivery-v9`.
+2. Открой `/api/telegram/set-webhook?token=sos_admin_2026_super_secret`
+3. Должен прийти JSON с `"ok": true`.
+4. Создай тестовый заказ.
+5. Нажми кнопку Telegram после создания заказа.
+6. В админке поставь статус `paid`.
+7. Сообщение должно автоматически прийти в Telegram.
+
+## Админка
+- `/admin`
+- `/admin.html`

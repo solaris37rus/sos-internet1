@@ -111,7 +111,8 @@ form.addEventListener('submit', async (e)=>{
     const data = await res.json();
     if(!res.ok) throw new Error(data.error || 'Ошибка');
     statusBox.className='form-status ok';
-    statusBox.innerHTML = `Заказ создан: <strong>${data.orderUid}</strong><br>Теперь переведите ${currentTariff.price.toLocaleString('ru-RU')} ₽ по СБП на +7 961 245-25-10 и отправьте номер заказа в <a href="https://vk.com/bread1996" target="_blank" rel="noopener">VK</a>.`;
+    const tgBlock = data.telegramBotLink ? `<br><br><a class="btn btn-secondary" href="${data.telegramBotLink}" target="_blank" rel="noopener">Привязать Telegram для автоматической выдачи</a>` : '';
+    statusBox.innerHTML = `Заказ создан: <strong>${data.orderUid}</strong><br>Теперь переведите ${currentTariff.price.toLocaleString('ru-RU')} ₽ по СБП на +7 961 245-25-10.<br>После оплаты нажмите Telegram-кнопку или отправьте номер заказа в <a href="https://vk.com/bread1996" target="_blank" rel="noopener">VK</a>.${tgBlock}`;
     localStorage.setItem('lastOrder', JSON.stringify(data));
   }catch(err){
     statusBox.className='form-status err';

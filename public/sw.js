@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sos-internet-premium-v8';
+const CACHE_NAME = 'sos-internet-telegram-v9';
 const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest', '/assets/icon.svg', '/admin.html', '/admin.js', '/admin'];
 
 self.addEventListener('install', event => {
