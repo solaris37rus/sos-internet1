@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS orders (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  order_uid TEXT UNIQUE,
+  order_uid TEXT,
   order_number TEXT,
   tariff_id TEXT,
   plan_id TEXT,
@@ -16,12 +16,13 @@ CREATE TABLE IF NOT EXISTS orders (
   customer_comment TEXT,
   status TEXT NOT NULL DEFAULT 'awaiting_payment',
   payment_method TEXT NOT NULL DEFAULT 'sbp_alfa',
+  telegram_chat_id TEXT,
+  telegram_username TEXT,
+  telegram_name TEXT,
+  delivery_sent_at TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
-
-CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
-CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at);
 
 CREATE TABLE IF NOT EXISTS feedback (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

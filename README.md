@@ -1,35 +1,37 @@
+# SOS Интернет — clean-premium-v10
 
-# SOS Интернет — telegram-auto-delivery-v9
+Полностью чистая версия проекта.
 
-Cloudflare Worker + Static Assets + D1 + автоматическая выдача через Telegram.
-
-## Что появилось
-- Клиент после заказа может нажать кнопку «Привязать Telegram».
-- Telegram-бот получает `/start НОМЕР_ЗАКАЗА` и привязывает chat_id к заказу.
-- Когда в админке поставить статус `paid` или `delivered`, Worker автоматически отправит клиенту комплект в Telegram.
-- Если клиент привязал Telegram после того, как заказ уже был отмечен как `paid`, комплект отправится сразу после привязки.
+## Что внутри
+- Премиум PWA-сайт.
+- Worker API.
+- Cloudflare D1 база.
+- Админка `/admin`.
+- Диагностика `/diagnostics`.
+- Telegram webhook.
+- Автоматическая выдача после статуса `paid`.
 
 ## Важно
-Telegram-бот не может сам написать человеку по @username, пока человек первым не откроет бота и не нажмёт Start. Поэтому на сайте после заказа появляется кнопка привязки Telegram.
+Проект сделан двойным способом:
+- `src/worker.js` — для Cloudflare Workers.
+- `public/_worker.js` — для Cloudflare Pages advanced mode.
 
-## Переменные Cloudflare Worker
-Обязательно:
-- `TELEGRAM_BOT_TOKEN` — токен бота из BotFather.
-- `TELEGRAM_BOT_USERNAME` — username бота без @, например `sos_planb_bot`.
+Если `/api/health` открывает главную страницу, значит Cloudflare запущен не с этим Worker-кодом.
 
-Уже было:
-- `ADMIN_TOKEN` — пароль админки. Если не задан, резервный токен: `sos_admin_2026_super_secret`.
-- D1 binding: `SOS_DB`.
+## Переменные Cloudflare
+- `ADMIN_TOKEN` — необязательно, по умолчанию работает `sos_admin_2026_super_secret`
+- `TELEGRAM_BOT_TOKEN` — Secret, токен бота из BotFather
+- `TELEGRAM_BOT_USERNAME` — Text, username бота без @
 
-## После деплоя
-1. Открой `/api/health` — должно быть `telegram-auto-delivery-v9`.
-2. Открой `/api/telegram/set-webhook?token=sos_admin_2026_super_secret`
-3. Должен прийти JSON с `"ok": true`.
-4. Создай тестовый заказ.
-5. Нажми кнопку Telegram после создания заказа.
-6. В админке поставь статус `paid`.
-7. Сообщение должно автоматически прийти в Telegram.
+## D1 binding
+Binding должен называться строго:
+`SOS_DB`
 
-## Админка
+## Проверка
+- `/api/health`
+- `/diagnostics`
 - `/admin`
-- `/admin.html`
+
+## Webhook
+После деплоя открыть:
+`/api/telegram/set-webhook?token=sos_admin_2026_super_secret`
